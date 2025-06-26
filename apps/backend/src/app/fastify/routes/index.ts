@@ -1,0 +1,6 @@
+export { CustomersRoutes } from './customer-routes'
+export { PetsRoutes } from './pets-routes'
+export { ProductsRoutes } from './products-routes'
+export { ServicesRoutes } from './services-routes'
+export { OrdersRoutes } from './orders-routes'
+export { ReportsRoutes } from './reports-routes'

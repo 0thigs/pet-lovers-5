@@ -1,0 +1,12 @@
+{
+  "name": "@pet-lovers/validation",
+  "dependencies": {
+    "@pet-lovers/core": "*"
+  },
+  "devDependencies": {
+    "@pet-lovers/typescript-config": "*"
+  },
+  "exports": {
+    "./schemas": "./src/schemas/index.ts"
+  }
+}

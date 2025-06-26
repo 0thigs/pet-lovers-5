@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./src/sqlite.db"
+}
+
+model OrderItem {
+  id            String   @id @default(uuid())
+  name          String
+  description   String
+  price         Float
+  registered_at DateTime @default(now())
+  category      String
+
+  orders Order[]
+
+  @@map("order_items")
+}
+
+model Pet {
+  id            String   @id @default(uuid())
+  name          String
+  breed         String
+  type          String
+  gender        String   @default("MALE")
+  registered_at DateTime @default(now())
+  customer_id   String
+
+  customer Customer @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+
+  @@map("pets")
+}
+
+model Customer {
+  id            String   @id @default(uuid())
+  name          String
+  socialName    String?
+  registered_at DateTime @default(now())
+  rgs           Rg[]
+  phones        Phone[]
+  orders        Order[]
+  cpf           Cpf?
+  pets          Pet[]
+
+  @@map("customers")
+}
+
+model Cpf {
+  id          String   @id @default(uuid())
+  value       String   @unique()
+  customer_id String   @unique()
+  issued_at   DateTime
+
+  customer Customer @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+
+  @@map("cpfs")
+}
+
+model Rg {
+  id          String   @id @default(uuid())
+  value       String   @unique()
+  customer_id String
+  issued_at   DateTime
+
+  customer Customer @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+
+  @@map("rgs")
+}
+
+model Phone {
+  id          String @id @default(uuid())
+  code_area   String
+  number      String @unique()
+  customer_id String
+
+  customer Customer @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+
+  @@map("phones")
+}
+
+model Order {
+  id            String   @id @default(uuid())
+  customer_id   String
+  item_id       String
+  pet_id        String
+  amount        Float
+  registered_at DateTime @default(now())
+
+  customer Customer  @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+  item     OrderItem @relation(fields: [item_id], references: [id], onDelete: Cascade)
+
+  @@map("orders")
+}
+
+// SELECT C.*, SUM(OI.amount) consumption from customers 
+// LEFT JOIN orders O ON O.customer_id = C.id 
+// LEFT JOIN order_items OI ON O.item_id = OI.id 
+// ORDER BY SUM(OI.amount)
