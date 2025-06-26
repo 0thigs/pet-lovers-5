@@ -21,7 +21,7 @@ Este é um app multi-modal de gerenciamento de clientes, produtos e serviços pa
 ### Clone o repositório
 
 ```bash
-git clone https://github.com/0thigs/pet-lovers.git
+git clone https://github.com/0thigs/pet-lovers-5.git
 ```
 
 ### Instale as dependências na raíz do projeto
